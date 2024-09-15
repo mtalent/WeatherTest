@@ -24,7 +24,7 @@ class WeatherViewModel : ViewModel() {
                 val response = repository.getWeatherByCity(city, apiKey)
                 weatherData = response
             } catch (e: Exception) {
-                // Handle exceptions (e.g., show error message)
+                "Error fetching weather data: ${e.localizedMessage}"
             }
         }
     }

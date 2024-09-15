@@ -28,7 +28,7 @@ fun SearchScreen(viewModel: WeatherViewModel) {
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
-            viewModel.fetchWeather(city.text, "e5c385d1592c72bfb7ee7d070dfa3aa1\n")
+            viewModel.fetchWeather(city.text, "0416d64d47a0d891f5f0f97d4d974d28")
         }) {
             Text("Get Weather")
         }
