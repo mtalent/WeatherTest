@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.Image
 import coil.compose.rememberImagePainter
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.sp
 import com.talent.weathertest.viewmodel.WeatherViewModel
 
 @Composable
@@ -18,31 +19,63 @@ fun SearchScreen(viewModel: WeatherViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(horizontal = 16.dp) // Horizontal padding for the entire column
+            .padding(top = 64.dp), // Move the content down from the top
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Input field for city search
         TextField(
             value = city,
             onValueChange = { city = it },
-            label = { Text("Enter City") }
+            label = { Text("Enter City") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 24.dp) // Space between input and button
         )
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = {
-            viewModel.fetchWeather(city.text, "0416d64d47a0d891f5f0f97d4d974d28")
-        }) {
-            Text("Get Weather")
+
+        // Search button
+        Button(
+            onClick = { viewModel.fetchWeather(city.text, "0416d64d47a0d891f5f0f97d4d974d28") },
+            modifier = Modifier
+                .padding(bottom = 32.dp) // Extra space between button and weather info
+        ) {
+            Text("Get Weather", fontSize = 20.sp) // Increase button text size
         }
 
+        // Weather info displayed after the city is searched
         viewModel.weatherData?.let { weather ->
             Spacer(modifier = Modifier.height(16.dp))
-            Text("City: ${weather.name}")
-            Text("Temperature: ${weather.main.temp} °C")
-            Text("Description: ${weather.weather[0].description}")
+
+            // City name
+            Text(
+                text = "City: ${weather.name}",
+                fontSize = 32.sp, // Increase text size
+                modifier = Modifier.padding(8.dp)
+            )
+
+            // Temperature
+            Text(
+                text = "Temperature: ${weather.main.temp} °C",
+                fontSize = 28.sp, // Increase text size
+                modifier = Modifier.padding(8.dp)
+            )
+
+            // Weather description
+            Text(
+                text = "Description: ${weather.weather[0].description}",
+                fontSize = 28.sp, // Increase text size
+                modifier = Modifier.padding(8.dp)
+            )
+
+            // Weather icon
             Image(
                 painter = rememberImagePainter(
                     data = "http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png"
                 ),
-                contentDescription = "Weather Icon"
+                contentDescription = "Weather Icon",
+                modifier = Modifier
+                    .size(100.dp) // Adjust icon size
+                    .padding(16.dp) // Space around the icon
             )
         }
     }
